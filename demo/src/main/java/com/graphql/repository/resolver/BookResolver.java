@@ -1,6 +1,7 @@
 package com.graphql.repository.resolver;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,11 +15,16 @@ public class BookResolver {
     @Autowired
     private BookRepo repo;
 
-    public Book getBook(int id){
+    public Book getBook(UUID id){
         return repo.findById(id).orElse(new Book());
     }
 
      public List<Book> getBooks(){
         return repo.findAll();
+    }
+
+    public Book newBookEntry(Book book){
+        return  repo.save(book);
+        
     }
 }

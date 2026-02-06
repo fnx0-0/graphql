@@ -1,14 +1,14 @@
 type Query{
     getBooks: [Book]
-    getBook(id:Int): Book
+    getBook(id:ID!): Book
 }
 
 type Mutation{
-    entryBook(book:BookInput): Int
+    createBook(book:BookInput!): Book
 }
 
 type Book{
-    id: Int
+    id: ID
     name: String
     pages: Int
 }
