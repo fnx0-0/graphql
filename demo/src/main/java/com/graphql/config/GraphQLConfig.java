@@ -39,10 +39,8 @@ public class GraphQLConfig {
                         .type(newTypeWiring("Query")
                                 .dataFetcher("getBook", bookService.getBook())
                                 .dataFetcher("getBooks", bookService.getBooks()))
-
                         .type(TypeRuntimeWiring.newTypeWiring("Mutation")
                                 .dataFetcher("createBook", bookService.createBook()))
-                                
                         .build();
 
         SchemaGenerator schemaGenerator = new SchemaGenerator();
