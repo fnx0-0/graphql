@@ -36,12 +36,13 @@ public class GraphQLConfig {
 
                 RuntimeWiring runtimeWiring;
                 runtimeWiring = RuntimeWiring.newRuntimeWiring()
-                        .type(newTypeWiring("Query")
+                        .type(newTypeWiring("Query")//query Type
                                 .dataFetcher("getBook", bookService.getBook())
                                 .dataFetcher("getBooks", bookService.getBooks()))
-                        .type(TypeRuntimeWiring.newTypeWiring("Mutation")
+                        .type(TypeRuntimeWiring.newTypeWiring("Mutation")//mutation Type
                                 .dataFetcher("createBook", bookService.createBook()))
-                        .type(TypeRuntimeWiring.newTypeWiring("Book").dataFetcher("author", authorService.getAuthor()))
+                        .type(TypeRuntimeWiring.newTypeWiring("Book")// field or type Type
+                                .dataFetcher("author", authorService.getAuthor()))
                         .build();
 
                 SchemaGenerator schemaGenerator = new SchemaGenerator();
