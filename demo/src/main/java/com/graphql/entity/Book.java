@@ -4,19 +4,21 @@ package com.graphql.entity;
 
 import java.util.UUID;
 
-import org.antlr.v4.runtime.misc.NotNull;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 @Entity
 @Builder
 @AllArgsConstructor
+@Getter
+@Setter
 public class Book {
 
     @Id

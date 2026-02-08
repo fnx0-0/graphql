@@ -27,4 +27,9 @@ public class BookResolver {
         return  repo.save(book);
         
     }
+
+    public void getAuthor(UUID bookID){
+
+        
+    }
 }

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
-import com.graphql.entity.Book;
+import com.graphql.service.AuthorService;
 import com.graphql.service.BookService;
 
 import graphql.GraphQL;
@@ -22,33 +22,34 @@ import graphql.schema.idl.errors.SchemaProblem;
 @Configuration
 public class GraphQLConfig {
 
-    @Bean
-    public GraphQL graphQL(BookService bookService)
-            throws SchemaProblem, IOException {
+        @Bean
+        public GraphQL graphQL(BookService bookService,AuthorService authorService)
+                throws SchemaProblem, IOException {
 
-        SchemaParser schemaParser = new SchemaParser();
+                SchemaParser schemaParser = new SchemaParser();
 
-        ClassPathResource schema =
-                new ClassPathResource("graphql/schema.graphqls");
+                ClassPathResource schema =
+                        new ClassPathResource("graphql/schema.graphqls");
 
-        TypeDefinitionRegistry typeRegistry =
-                schemaParser.parse(schema.getInputStream());
+                TypeDefinitionRegistry typeRegistry =
+                        schemaParser.parse(schema.getInputStream());
 
-        RuntimeWiring runtimeWiring =
-                RuntimeWiring.newRuntimeWiring()
+                RuntimeWiring runtimeWiring;
+                runtimeWiring = RuntimeWiring.newRuntimeWiring()
                         .type(newTypeWiring("Query")
                                 .dataFetcher("getBook", bookService.getBook())
                                 .dataFetcher("getBooks", bookService.getBooks()))
                         .type(TypeRuntimeWiring.newTypeWiring("Mutation")
                                 .dataFetcher("createBook", bookService.createBook()))
+                        .type(TypeRuntimeWiring.newTypeWiring("Book").dataFetcher("author", authorService.getAuthor()))
                         .build();
 
-        SchemaGenerator schemaGenerator = new SchemaGenerator();
+                SchemaGenerator schemaGenerator = new SchemaGenerator();
 
-        GraphQLSchema finalSchema =
-                schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
+                GraphQLSchema finalSchema =
+                        schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
 
-        return GraphQL.newGraphQL(finalSchema).build();
-    }
+                return GraphQL.newGraphQL(finalSchema).build();
+        }
 
 }
